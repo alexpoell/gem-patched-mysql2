@@ -54,11 +54,17 @@ static VALUE rb_hash_dup(VALUE other) {
  * variable to use, but MYSQL_SERVER_VERSION gives the correct numbers when
  * linking against the server itself
  */
+// CTE FIX FOR MARIADB COMPAT:
 #ifdef LIBMYSQL_VERSION
-  #define MYSQL_LINK_VERSION LIBMYSQL_VERSION
-#else
-  #define MYSQL_LINK_VERSION MYSQL_SERVER_VERSION
+#define MYSQL_LINK_VERSION LIBMYSQL_VERSION
 #endif
+#if defined(MARIADB_PACKAGE_VERSION) && !defined(MYSQL_LINK_VERSION)
+#define MYSQL_LINK_VERSION MARIADB_PACKAGE_VERSION
+#endif
+#ifndef MYSQL_LINK_VERSION
+#define MYSQL_LINK_VERSION MYSQL_SERVER_VERSION
+#endif
+
 
 /*
  * used to pass all arguments to mysql_real_connect while inside

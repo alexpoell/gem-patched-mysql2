@@ -43,3 +43,8 @@ typedef unsigned int    uint;
 #include <infile.h>
 
 #endif
+
+#ifndef CLIENT_LONG_PASSWORD
+#define CLIENT_LONG_PASSWORD 0 /* obsolete flag */
+#endif
+
